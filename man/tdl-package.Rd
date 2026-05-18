@@ -4,9 +4,9 @@
 \name{tdl-package}
 \alias{tdl}
 \alias{tdl-package}
-\title{tdl: 'parsnip' model functions for tabular deep learning models.}
+\title{tdl: Tidy Interfaces For Tabular Deep Learning}
 \description{
-Tidy Interfaces For Tabular Deep Learning
+'parsnip' model functions for tabular deep learning models, including TabPFN, ResNet, and others.
 }
 \author{
 \strong{Maintainer}: Max Kuhn \email{max@posit.co} (\href{https://orcid.org/0000-0003-2402-136X}{ORCID})

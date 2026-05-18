@@ -151,7 +151,7 @@ check_args.tab_resnet <- function(object, call = rlang::caller_env()) {
 }
 
 #' @export
-required_pkgs.tab_resnet <- function(x) {
+required_pkgs.tab_resnet <- function(x, infra = TRUE, ...) {
   c("brulee", "tdl")
 }
 
