@@ -77,7 +77,7 @@ tab_pfn <-
       average_before_softmax = enquo(average_before_softmax)
     )
 
-    new_model_spec(
+    parsnip::new_model_spec(
       "tab_pfn",
       args = args,
       eng_args = NULL,
@@ -92,7 +92,8 @@ tab_pfn <-
 # ------------------------------------------------------------------------------
 
 #' @method update tab_pfn
-#' @rdname parsnip_update
+#' @rdname tdl_update
+#' @inheritParams tab_pfn
 #' @export
 update.tab_pfn <-
   function(
@@ -112,7 +113,7 @@ update.tab_pfn <-
       average_before_softmax = enquo(average_before_softmax)
     )
 
-    update_spec(
+    parsnip::update_spec(
       object = object,
       parameters = parameters,
       args_enquo_list = args,
@@ -157,6 +158,12 @@ check_args.tab_pfn <- function(object, call = rlang::caller_env()) {
   invisible(object)
 }
 
+
+#' @export
+required_pkgs.tab_pfn <- function(x, infra = TRUE, ...) {
+  c("tabpfn", "tdl")
+}
+
 # ------------------------------------------------------------------------------
 
 class_only <- function(x, object) {
@@ -170,15 +177,14 @@ prob_only <- function(x, object) {
 # ------------------------------------------------------------------------------
 
 make_tab_pfn <- function() {
+  parsnip::set_new_model("tab_pfn")
+  parsnip::set_model_mode("tab_pfn", mode = "classification")
+  parsnip::set_model_mode("tab_pfn", mode = "regression")
 
-  set_new_model("tab_pfn")
-  set_model_mode("tab_pfn", mode = "classification")
-  set_model_mode("tab_pfn", mode = "regression")
+  parsnip::set_model_engine("tab_pfn", mode = "classification", eng = "tabpfn")
+  parsnip::set_dependency("tab_pfn", eng = "tabpfn", pkg = "tabpfn")
 
-  set_model_engine("tab_pfn", mode = "classification", eng = "tabpfn")
-  set_dependency("tab_pfn", eng = "tabpfn", pkg = "tabpfn")
-
-  set_fit(
+  parsnip::set_fit(
     model = "tab_pfn",
     eng = "tabpfn",
     mode = "classification",
@@ -190,7 +196,7 @@ make_tab_pfn <- function() {
     )
   )
 
-  set_encoding(
+  parsnip::set_encoding(
     model = "tab_pfn",
     eng = "tabpfn",
     mode = "classification",
@@ -202,7 +208,7 @@ make_tab_pfn <- function() {
     )
   )
 
-  set_pred(
+  parsnip::set_pred(
     model = "tab_pfn",
     eng = "tabpfn",
     mode = "classification",
@@ -218,7 +224,7 @@ make_tab_pfn <- function() {
     )
   )
 
-  set_pred(
+  parsnip::set_pred(
     model = "tab_pfn",
     eng = "tabpfn",
     mode = "classification",
@@ -234,7 +240,7 @@ make_tab_pfn <- function() {
     )
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_pfn",
     eng = "tabpfn",
     parsnip = "num_estimators",
@@ -243,7 +249,7 @@ make_tab_pfn <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_pfn",
     eng = "tabpfn",
     parsnip = "softmax_temperature",
@@ -252,7 +258,7 @@ make_tab_pfn <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_pfn",
     eng = "tabpfn",
     parsnip = "balance_probabilities",
@@ -261,7 +267,7 @@ make_tab_pfn <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_pfn",
     eng = "tabpfn",
     parsnip = "average_before_softmax",
@@ -272,10 +278,10 @@ make_tab_pfn <- function() {
 
   # ------------------------------------------------------------------------------
 
-  set_model_engine("tab_pfn", mode = "regression", eng = "tabpfn")
-  set_dependency("tab_pfn", eng = "tabpfn", pkg = "tabpfn")
+  parsnip::set_model_engine("tab_pfn", mode = "regression", eng = "tabpfn")
+  parsnip::set_dependency("tab_pfn", eng = "tabpfn", pkg = "tabpfn")
 
-  set_fit(
+  parsnip::set_fit(
     model = "tab_pfn",
     eng = "tabpfn",
     mode = "regression",
@@ -287,7 +293,7 @@ make_tab_pfn <- function() {
     )
   )
 
-  set_encoding(
+  parsnip::set_encoding(
     model = "tab_pfn",
     eng = "tabpfn",
     mode = "regression",
@@ -299,7 +305,7 @@ make_tab_pfn <- function() {
     )
   )
 
-  set_pred(
+  parsnip::set_pred(
     model = "tab_pfn",
     eng = "tabpfn",
     mode = "regression",

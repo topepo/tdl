@@ -2,6 +2,7 @@
 % Please edit documentation in R/grids.R
 \name{neural_net_grid_space_filling}
 \alias{neural_net_grid_space_filling}
+\alias{expand_list_parameters}
 \title{Working with Tuning Paramters that are lists}
 \usage{
 neural_net_grid_space_filling(
@@ -12,6 +13,8 @@ neural_net_grid_space_filling(
   range = c(2, 50),
   collapse = TRUE
 )
+
+expand_list_parameters(x, pattern = "*")
 }
 \arguments{
 \item{wflow}{A \code{\link[workflows:workflow]{workflows::workflow()}} object.}
@@ -22,10 +25,14 @@ units.}
 \item{size}{The \emph{minimum} grid size. It may be adjusted upwards to find a
 feasable design.}
 
+\item{param_info}{A \code{\link[dials:parameters]{dials::parameters()}} object or \code{NULL}. If none is given, a
+parameters set is derived from other arguments. Passing this argument can be
+useful when parameter ranges need to be customized.}
+
+\item{range}{A range for the number of hidden units in each layer.}
+
 \item{collapse}{A single logical for whether to collapses the parameters into
 list columns.}
-
-\item{A}{range for the number of hidden units in each layer.}
 
 \item{x}{A data frame of grid points, some of which as list columns.}
 

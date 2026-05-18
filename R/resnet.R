@@ -60,7 +60,7 @@ tab_resnet <-
       learn_rate = enquo(learn_rate)
     )
 
-    new_model_spec(
+    parsnip::new_model_spec(
       "tab_resnet",
       args = args,
       eng_args = NULL,
@@ -74,8 +74,9 @@ tab_resnet <-
 
 # ------------------------------------------------------------------------------
 
+#' Updating a model specification
 #' @method update tab_resnet
-#' @rdname parsnip_update
+#' @rdname tdl_update
 #' @export
 update.tab_resnet <-
   function(
@@ -103,7 +104,7 @@ update.tab_resnet <-
       learn_rate = enquo(learn_rate)
     )
 
-    update_spec(
+    parsnip::update_spec(
       object = object,
       parameters = parameters,
       args_enquo_list = args,
@@ -157,9 +158,11 @@ required_pkgs.tab_resnet <- function(x, infra = TRUE, ...) {
 
 ## -----------------------------------------------------------------------------
 
+#' Model predictions across many sub-models
 #' @importFrom purrr map
 #' @importFrom dplyr arrange select
 #' @rdname multi_predict
+#' @inheritParams parsnip::multi_predict
 #' @param epochs An integer vector for the number of training epochs.
 #' @export
 multi_predict._torch_resnet <-
@@ -191,14 +194,14 @@ multi_predict._torch_resnet <-
       dplyr::arrange(.row, epochs)
     res <- split(dplyr::select(res, -.row), res$.row)
     names(res) <- NULL
-    tibble(.pred = res)
+    tibble::tibble(.pred = res)
   }
 
 
 reformat_torch_num <- function(results, object) {
   if (isTRUE(ncol(results) > 1)) {
     nms <- colnames(results)
-    results <- as_tibble(results, .name_repair = "minimal")
+    results <- tibble::as_tibble(results, .name_repair = "minimal")
     if (length(nms) == 0 && length(object$preproc$y_var) == ncol(results)) {
       names(results) <- object$preproc$y_var
     }
@@ -211,26 +214,30 @@ reformat_torch_num <- function(results, object) {
 # ------------------------------------------------------------------------------
 
 make_tab_resnet <- function() {
-  set_new_model("tab_resnet")
-  set_model_mode("tab_resnet", mode = "classification")
-  set_model_mode("tab_resnet", mode = "regression")
+  parsnip::set_new_model("tab_resnet")
+  parsnip::set_model_mode("tab_resnet", mode = "classification")
+  parsnip::set_model_mode("tab_resnet", mode = "regression")
 
-  set_model_engine("tab_resnet", mode = "classification", eng = "brulee")
-  set_model_engine("tab_resnet", mode = "regression", eng = "brulee")
-  set_dependency(
+  parsnip::set_model_engine(
+    "tab_resnet",
+    mode = "classification",
+    eng = "brulee"
+  )
+  parsnip::set_model_engine("tab_resnet", mode = "regression", eng = "brulee")
+  parsnip::set_dependency(
     "tab_resnet",
     eng = "brulee",
     pkg = "brulee",
     mode = "classification"
   )
-  set_dependency(
+  parsnip::set_dependency(
     "tab_resnet",
     eng = "brulee",
     pkg = "brulee",
     mode = "regression"
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "hidden_units",
@@ -239,7 +246,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "batch_norm_units",
@@ -248,7 +255,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "penalty",
@@ -257,7 +264,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "epochs",
@@ -266,7 +273,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "dropout",
@@ -275,7 +282,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "learn_rate",
@@ -284,7 +291,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "activation",
@@ -297,7 +304,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "rate_schedule",
@@ -309,7 +316,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "momentum",
@@ -322,7 +329,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_model_arg(
+  parsnip::set_model_arg(
     model = "tab_resnet",
     eng = "brulee",
     parsnip = "batch_size",
@@ -335,7 +342,7 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
-  set_fit(
+  parsnip::set_fit(
     model = "tab_resnet",
     eng = "brulee",
     mode = "regression",
@@ -347,7 +354,7 @@ make_tab_resnet <- function() {
     )
   )
 
-  set_encoding(
+  parsnip::set_encoding(
     model = "tab_resnet",
     eng = "brulee",
     mode = "regression",
@@ -359,7 +366,7 @@ make_tab_resnet <- function() {
     )
   )
 
-  set_fit(
+  parsnip::set_fit(
     model = "tab_resnet",
     eng = "brulee",
     mode = "classification",
@@ -371,7 +378,7 @@ make_tab_resnet <- function() {
     )
   )
 
-  set_encoding(
+  parsnip::set_encoding(
     model = "tab_resnet",
     eng = "brulee",
     mode = "classification",
@@ -383,7 +390,7 @@ make_tab_resnet <- function() {
     )
   )
 
-  set_pred(
+  parsnip::set_pred(
     model = "tab_resnet",
     eng = "brulee",
     mode = "regression",
@@ -400,7 +407,7 @@ make_tab_resnet <- function() {
     )
   )
 
-  set_pred(
+  parsnip::set_pred(
     model = "tab_resnet",
     eng = "brulee",
     mode = "classification",
@@ -417,7 +424,7 @@ make_tab_resnet <- function() {
     )
   )
 
-  set_pred(
+  parsnip::set_pred(
     model = "tab_resnet",
     eng = "brulee",
     mode = "classification",

@@ -11,10 +11,10 @@
 #' units.
 #' @param size The _minimum_ grid size. It may be adjusted upwards to find a
 #' feasable design.
-#' @param A [dials::parameters()] object or `NULL`. If none is given, a
+#' @param param_info A [dials::parameters()] object or `NULL`. If none is given, a
 #' parameters set is derived from other arguments. Passing this argument can be
 #' useful when parameter ranges need to be customized.
-#' @param A range for the number of hidden units in each layer.
+#' @param range A range for the number of hidden units in each layer.
 #' @param collapse A single logical for whether to collapses the parameters into
 #' list columns.
 #' @param x A data frame of grid points, some of which as list columns.
@@ -42,7 +42,7 @@ neural_net_grid_space_filling <- function(
   collapse = TRUE
 ) {
   if (is.null(param_info)) {
-    param_info <- wflow |> extract_parameter_set_dials()
+    param_info <- wflow |> hardhat::extract_parameter_set_dials()
   }
   tune_hidden <- any(param_info$id == "hidden_units")
   tune_batch <- any(param_info$id == "batch_norm_units")
@@ -50,10 +50,10 @@ neural_net_grid_space_filling <- function(
   p <- num_layers * (tune_batch + 1)
 
   param_expanded <- vector(mode = "list", length = p)
-  names(param_expanded)[1:num_layers] <- recipes::names0(num_layers, ".hidden_")
+  names(param_expanded)[1:num_layers] <- names0(num_layers, ".hidden_")
 
   if (tune_batch) {
-    names(param_expanded)[(num_layers + 1):p] <- recipes::names0(
+    names(param_expanded)[(num_layers + 1):p] <- names0(
       num_layers,
       ".batch_"
     )
@@ -75,7 +75,10 @@ neural_net_grid_space_filling <- function(
 
   class(param_expanded) <- class(param_info)
 
-  grd <- dials::grid_space_filling(param_expanded, size = max(size, ncol(param_info)))
+  grd <- dials::grid_space_filling(
+    param_expanded,
+    size = max(size, ncol(param_info))
+  )
   if (collapse) {
     hidden_grid <-
       grd |>
@@ -103,6 +106,7 @@ neural_net_grid_space_filling <- function(
 }
 
 #' @export
+#' @name neural_net_grid_space_filling
 expand_list_parameters <- function(x, pattern = "*") {
   is_lst_param <- purrr::map_lgl(x, is.list)
   if (!any(is_lst_param)) {
@@ -121,6 +125,6 @@ expand_list_parameters <- function(x, pattern = "*") {
 
 rename_lst_parameter <- function(nm, val) {
   x <- as.list(val[[nm]][[1]])
-  names(x) <- recipes::names0(length(x), paste0(nm, "_"))
+  names(x) <- names0(length(x), paste0(nm, "_"))
   tibble::as_tibble_row(x)
 }
