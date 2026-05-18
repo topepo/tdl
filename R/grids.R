@@ -1,5 +1,12 @@
+#' Working with Tuning Paramters that are lists
+#'
+#' `neural_net_grid_space_filling()` takes the number of layers in a neural
+network as an input, creates a space-filling design with the multidimensional layer parameter(s), and collapses the grid into list parameters that the model function needs. `expand_list_parameters()` is a convenience function that converts the list columns to a wide structure for printing, visualization, etc.
+
+
+
 #' @export
-resnet_grid_space_filling <- function(
+neural_net_grid_space_filling <- function(
   wflow,
   num_layers = 3,
   size = 10,
@@ -66,4 +73,27 @@ resnet_grid_space_filling <- function(
       )
   }
   grd
+}
+
+#' @export
+expand_list_parameters <- function(x, parameters = "*") {
+  is_lst_param <- purrr::map_lgl(x, is.list)
+  if (!any(is_lst_param)) {
+    return(x)
+  }
+  param_names <- grep(parameters, names(x)[is_lst_param], value = TRUE)
+  for (i in param_names) {
+    expanded <- purrr::map_dfr(1:nrow(x), ~ rename_lst_parameter(i, x[.x, ]))
+    x <-
+      dplyr::bind_cols(x, expanded) |>
+      # dplyr::relocate(.after = c(dplyr::all_of(i))) |>
+      dplyr::select(-!!i)
+  }
+  x
+}
+
+rename_lst_parameter <- function(nm, val) {
+  x <- as.list(val[[nm]][[1]])
+  names(x) <- recipes::names0(length(x), paste0(nm, "_"))
+  tibble::as_tibble_row(x)
 }
