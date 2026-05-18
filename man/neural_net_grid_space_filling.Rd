@@ -43,3 +43,14 @@ model function needs. \code{expand_list_parameters()} is a convenience function
 that converts the list columns to a wide structure for printing,
 visualization, etc.
 }
+\examples{
+rn_spec <-
+  tab_resnet(hidden_units = tune(),
+             batch_norm_units = tune(),
+             penalty = tune())
+
+rn_grid <- neural_net_grid_space_filling(rn_spec)
+rn_grid
+
+rn_grid |> expand_list_parameters()
+}

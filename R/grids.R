@@ -22,6 +22,16 @@
 #' should be expanded to a wide format.
 #' @return A tibble with grid points, some of which are list-columns containing
 #' integer vectors.
+#' @examples
+#' rn_spec <-
+#'   tab_resnet(hidden_units = tune(),
+#'              batch_norm_units = tune(),
+#'              penalty = tune())
+#'
+#' rn_grid <- neural_net_grid_space_filling(rn_spec)
+#' rn_grid
+#'
+#' rn_grid |> expand_list_parameters()
 #' @export
 neural_net_grid_space_filling <- function(
   wflow,
@@ -50,10 +60,10 @@ neural_net_grid_space_filling <- function(
   }
 
   for (i in 1:p) {
-    param_expanded[[i]] <- hidden_units(range)
+    param_expanded[[i]] <- dials::hidden_units(range)
   }
 
-  param_expanded <- parameters(param_expanded)
+  param_expanded <- dials::parameters(param_expanded)
 
   param_expanded <- dplyr::bind_rows(param_expanded, param_info)
   if (tune_hidden) {
@@ -65,7 +75,7 @@ neural_net_grid_space_filling <- function(
 
   class(param_expanded) <- class(param_info)
 
-  grd <- grid_space_filling(param_expanded, size = max(size, ncol(param_info)))
+  grd <- dials::grid_space_filling(param_expanded, size = max(size, ncol(param_info)))
   if (collapse) {
     hidden_grid <-
       grd |>
@@ -80,7 +90,7 @@ neural_net_grid_space_filling <- function(
       batch_norm_units = batch_grid
     )
     grd <-
-      bind_cols(
+      dplyr::bind_cols(
         unit_grid,
         grd |>
           dplyr::select(
