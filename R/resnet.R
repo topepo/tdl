@@ -137,9 +137,9 @@ check_args.tab_resnet <- function(object, call = rlang::caller_env()) {
 
   if (
     is.numeric(args$penalty) &&
-    is.numeric(args$dropout) &&
-    args$dropout > 0 &&
-    args$penalty > 0
+      is.numeric(args$dropout) &&
+      args$dropout > 0 &&
+      args$penalty > 0
   ) {
     cli::cli_abort(
       "Both weight decay and dropout should not be specified.",
@@ -148,6 +148,11 @@ check_args.tab_resnet <- function(object, call = rlang::caller_env()) {
   }
 
   invisible(object)
+}
+
+#' @export
+required_pkgs.tab_resnet <- function(x) {
+  c("brulee", "tdl")
 }
 
 ## -----------------------------------------------------------------------------
@@ -206,15 +211,24 @@ reformat_torch_num <- function(results, object) {
 # ------------------------------------------------------------------------------
 
 make_tab_resnet <- function() {
-
   set_new_model("tab_resnet")
   set_model_mode("tab_resnet", mode = "classification")
   set_model_mode("tab_resnet", mode = "regression")
 
   set_model_engine("tab_resnet", mode = "classification", eng = "brulee")
-  set_model_engine("tab_resnet", mode = "regression",     eng = "brulee")
-  set_dependency("tab_resnet", eng = "brulee", pkg = "brulee", mode = "classification")
-  set_dependency("tab_resnet", eng = "brulee", pkg = "brulee", mode = "regression")
+  set_model_engine("tab_resnet", mode = "regression", eng = "brulee")
+  set_dependency(
+    "tab_resnet",
+    eng = "brulee",
+    pkg = "brulee",
+    mode = "classification"
+  )
+  set_dependency(
+    "tab_resnet",
+    eng = "brulee",
+    pkg = "brulee",
+    mode = "regression"
+  )
 
   set_model_arg(
     model = "tab_resnet",
@@ -283,6 +297,43 @@ make_tab_resnet <- function() {
     has_submodel = FALSE
   )
 
+  set_model_arg(
+    model = "tab_resnet",
+    eng = "brulee",
+    parsnip = "rate_schedule",
+    original = "rate_schedule",
+    func = list(
+      pkg = "dials",
+      fun = "rate_schedule"
+    ),
+    has_submodel = FALSE
+  )
+
+  set_model_arg(
+    model = "tab_resnet",
+    eng = "brulee",
+    parsnip = "momentum",
+    original = "momentum",
+    func = list(
+      pkg = "dials",
+      fun = "momentum",
+      range = c(0.50, 0.99)
+    ),
+    has_submodel = FALSE
+  )
+
+  set_model_arg(
+    model = "tab_resnet",
+    eng = "brulee",
+    parsnip = "batch_size",
+    original = "batch_size",
+    func = list(
+      pkg = "dials",
+      fun = "batch_size",
+      range = c(4, 7)
+    ),
+    has_submodel = FALSE
+  )
 
   set_fit(
     model = "tab_resnet",
@@ -382,5 +433,4 @@ make_tab_resnet <- function() {
       )
     )
   )
-
 }
