@@ -1,10 +1,27 @@
 #' Working with Tuning Paramters that are lists
 #'
 #' `neural_net_grid_space_filling()` takes the number of layers in a neural
-network as an input, creates a space-filling design with the multidimensional layer parameter(s), and collapses the grid into list parameters that the model function needs. `expand_list_parameters()` is a convenience function that converts the list columns to a wide structure for printing, visualization, etc.
-
-
-
+#" network as an input, creates a space-filling design with the multidimensional
+#' layer parameter(s), and collapses the grid into list parameters that the
+#' model function needs. `expand_list_parameters()` is a convenience function
+#' that converts the list columns to a wide structure for printing,
+#' visualization, etc.
+#' @param wflow A [workflows::workflow()] object.
+#' @param num_layers A single integer for the number of layers containing hidden
+#' units.
+#' @param size The _minimum_ grid size. It may be adjusted upwards to find a
+#' feasable design.
+#' @param A [dials::parameters()] object or `NULL`. If none is given, a
+#' parameters set is derived from other arguments. Passing this argument can be
+#' useful when parameter ranges need to be customized.
+#' @param A range for the number of hidden units in each layer.
+#' @param collapse A single logical for whether to collapses the parameters into
+#' list columns.
+#' @param x A data frame of grid points, some of which as list columns.
+#' @param pattern A regular expression pattern to select which list columns
+#' should be expanded to a wide format.
+#' @return A tibble with grid points, some of which are list-columns containing
+#' integer vectors.
 #' @export
 neural_net_grid_space_filling <- function(
   wflow,
@@ -48,7 +65,7 @@ neural_net_grid_space_filling <- function(
 
   class(param_expanded) <- class(param_info)
 
-  grd <- grid_space_filling(param_expanded, size = size)
+  grd <- grid_space_filling(param_expanded, size = max(size, ncol(param_info)))
   if (collapse) {
     hidden_grid <-
       grd |>
@@ -76,12 +93,12 @@ neural_net_grid_space_filling <- function(
 }
 
 #' @export
-expand_list_parameters <- function(x, parameters = "*") {
+expand_list_parameters <- function(x, pattern = "*") {
   is_lst_param <- purrr::map_lgl(x, is.list)
   if (!any(is_lst_param)) {
     return(x)
   }
-  param_names <- grep(parameters, names(x)[is_lst_param], value = TRUE)
+  param_names <- grep(pattern, names(x)[is_lst_param], value = TRUE)
   for (i in param_names) {
     expanded <- purrr::map_dfr(1:nrow(x), ~ rename_lst_parameter(i, x[.x, ]))
     x <-
