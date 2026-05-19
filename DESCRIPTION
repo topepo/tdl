@@ -20,6 +20,7 @@ Imports:
     hardhat,
     purrr,
     rlang (>= 1.1.0),
+    scales,
     tibble
 Suggests:
     spelling,
@@ -27,5 +28,5 @@ Suggests:
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
