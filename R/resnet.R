@@ -12,6 +12,10 @@
 #' @inheritParams parsnip::mlp
 #' @param hidden_units An integer vector for the number of units in the hidden
 #' model.
+#' @param batch_norm_units The number of embeddings that are produced by batch
+#' normalization.
+#' @param resid_at An integer vector with the layer number should use a
+#' residual connection (i.e., skip layer).
 #' @param penalty A non-negative numeric value for the amount of weight
 #'  decay.
 #' @param dropout A number between 0 (inclusive) and 1 denoting the proportion
@@ -77,6 +81,16 @@ tab_resnet <-
 #' Updating a model specification
 #' @method update tab_resnet
 #' @rdname tdl_update
+#' @inheritParams tab_resnet
+#' @param object A [model specification][model_spec].
+#' @param parameters A 1-row tibble or named list with _main_
+#'  parameters to update. Use **either** `parameters` **or** the main arguments
+#'  directly when updating. If the main arguments are used,
+#'  these will supersede the values in `parameters`. Also, using
+#'  engine arguments in this object will result in an error.
+#' @param ... Not used for `update()`.
+#' @param fresh A logical for whether the arguments should be
+#'  modified in-place or replaced wholesale.
 #' @export
 update.tab_resnet <-
   function(

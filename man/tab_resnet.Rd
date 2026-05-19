@@ -28,6 +28,12 @@ to use for fitting.}
 \item{hidden_units}{An integer vector for the number of units in the hidden
 model.}
 
+\item{batch_norm_units}{The number of embeddings that are produced by batch
+normalization.}
+
+\item{resid_at}{An integer vector with the layer number should use a
+residual connection (i.e., skip layer).}
+
 \item{penalty}{A non-negative numeric value for the amount of weight
 decay.}
 

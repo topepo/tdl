@@ -32,6 +32,46 @@
 )
 }
 \arguments{
+\item{object}{A \link[parsnip:model_spec]{model specification}.}
+
+\item{parameters}{A 1-row tibble or named list with \emph{main}
+parameters to update. Use \strong{either} \code{parameters} \strong{or} the main arguments
+directly when updating. If the main arguments are used,
+these will supersede the values in \code{parameters}. Also, using
+engine arguments in this object will result in an error.}
+
+\item{hidden_units}{An integer vector for the number of units in the hidden
+model.}
+
+\item{batch_norm_units}{The number of embeddings that are produced by batch
+normalization.}
+
+\item{resid_at}{An integer vector with the layer number should use a
+residual connection (i.e., skip layer).}
+
+\item{penalty}{A non-negative numeric value for the amount of weight
+decay.}
+
+\item{dropout}{A number between 0 (inclusive) and 1 denoting the proportion
+of model parameters randomly set to zero during model training.}
+
+\item{epochs}{An integer for the number of training iterations.}
+
+\item{activation}{A vector character strings denoting the type of relationship
+between the layers. The activation
+function between the hidden and output layers is automatically set to either
+"linear" or "softmax" depending on the type of outcome. Possible values
+depend on the engine being used.}
+
+\item{learn_rate}{A number for the rate at which the boosting algorithm adapts
+from iteration-to-iteration (specific engines only). This is sometimes referred to
+as the shrinkage parameter.}
+
+\item{fresh}{A logical for whether the arguments should be
+modified in-place or replaced wholesale.}
+
+\item{...}{Not used for \code{update()}.}
+
 \item{num_estimators}{An integer for the ensemble size. Default is \code{8L}.}
 
 \item{softmax_temperature}{An adjustment factor that is a divisor in the
