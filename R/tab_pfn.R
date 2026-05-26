@@ -195,7 +195,7 @@ make_tabular_pfn <- function() {
     value = list(
       interface = "formula",
       protect = c("formula", "data"),
-      func = c(pkg = "tabpfn", fun = "tabu_pfn"),
+      func = c(pkg = "tabpfn", fun = "tab_pfn"),
       defaults = list()
     )
   )
