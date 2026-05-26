@@ -222,6 +222,7 @@ make_tabular_pfn <- function() {
       post = NULL,
       func = c(fun = "predict"),
       args = list(
+        type = "class",
         object = quote(object$fit),
         new_data = quote(new_data)
       )
@@ -238,6 +239,7 @@ make_tabular_pfn <- function() {
       post = NULL,
       func = c(fun = "predict"),
       args = list(
+        type = "prob",
         object = quote(object$fit),
         new_data = quote(new_data)
       )
