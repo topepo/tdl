@@ -20,10 +20,12 @@ Imports:
     hardhat,
     purrr,
     rlang (>= 1.1.0),
+    scales,
     tibble
 Suggests:
     spelling,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    torch
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
