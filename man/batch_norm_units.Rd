@@ -19,7 +19,7 @@ The number of units used in batch normalization layers within a residual
 block.
 }
 \details{
-Used as a tuning parameter for \code{\link[=tab_resnet]{tab_resnet()}} when fit with the \code{"brulee"}
+Used as a tuning parameter for \code{\link[=tabular_resnet]{tabular_resnet()}} when fit with the \code{"brulee"}
 engine.
 }
 \examples{

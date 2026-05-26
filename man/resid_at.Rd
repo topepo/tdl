@@ -21,7 +21,7 @@ The layer indices at which residual connections are added in a tabular
 residual network.
 }
 \details{
-Used as a tuning parameter for \code{\link[=tab_resnet]{tab_resnet()}} when fit with the \code{"brulee"}
+Used as a tuning parameter for \code{\link[=tabular_resnet]{tabular_resnet()}} when fit with the \code{"brulee"}
 engine. The upper bound depends on the number of hidden layers in the
 network and so is left as \code{unknown()} by default.
 }
