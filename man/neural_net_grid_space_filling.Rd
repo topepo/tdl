@@ -53,7 +53,7 @@ visualization, etc.
 \examples{
 rn_spec <-
   tabular_resnet(hidden_units = tune(),
-             batch_norm_units = tune(),
+             bottleneck_units = tune(),
              penalty = tune())
 
 rn_grid <- neural_net_grid_space_filling(rn_spec)
