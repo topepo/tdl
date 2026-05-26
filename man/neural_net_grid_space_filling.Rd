@@ -52,7 +52,7 @@ visualization, etc.
 }
 \examples{
 rn_spec <-
-  tab_resnet(hidden_units = tune(),
+  tabular_resnet(hidden_units = tune(),
              batch_norm_units = tune(),
              penalty = tune())
 
