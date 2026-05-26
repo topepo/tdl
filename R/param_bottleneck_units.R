@@ -1,6 +1,6 @@
-#' Number of batch normalization units
+#' Number of bottleneck units
 #'
-#' The number of units used in batch normalization layers within a residual
+#' The number of units used in ResNet layers within a residual
 #' block.
 #'
 #' @param range A two-element vector with the lower and upper bounds.
@@ -13,17 +13,17 @@
 #' @return A `param` object.
 #'
 #' @examples
-#' batch_norm_units()
-#' batch_norm_units(range = c(4L, 8L))
+#' bottleneck_units()
+#' bottleneck_units(range = c(4L, 8L))
 #'
 #' @export
-batch_norm_units <- function(range = c(2L, 25L), trans = NULL) {
+bottleneck_units <- function(range = c(2L, 25L), trans = NULL) {
   dials::new_quant_param(
     type = "integer",
     range = range,
     inclusive = c(TRUE, TRUE),
     trans = trans,
-    label = c(batch_norm_units = "# BatchNorm Units"),
+    label = c(bottleneck_units = "# Bottleneck Units"),
     finalize = NULL
   )
 }

@@ -12,7 +12,7 @@
 #' @inheritParams parsnip::mlp
 #' @param hidden_units An integer vector for the number of units in the hidden
 #' model.
-#' @param batch_norm_units The number of embeddings that are produced by batch
+#' @param bottleneck_units The number of embeddings that are produced by batch
 #' normalization.
 #' @param resid_at An integer vector with the layer number should use a
 #' residual connection (i.e., skip layer).
@@ -45,7 +45,7 @@ tabular_resnet <-
     mode = "unknown",
     engine = "brulee",
     hidden_units = NULL,
-    batch_norm_units = NULL,
+    bottleneck_units = NULL,
     resid_at = NULL,
     penalty = NULL,
     dropout = NULL,
@@ -55,7 +55,7 @@ tabular_resnet <-
   ) {
     args <- list(
       hidden_units = enquo(hidden_units),
-      batch_norm_units = enquo(batch_norm_units),
+      bottleneck_units = enquo(bottleneck_units),
       resid_at = enquo(resid_at),
       penalty = enquo(penalty),
       dropout = enquo(dropout),
@@ -97,7 +97,7 @@ update.tabular_resnet <-
     object,
     parameters = NULL,
     hidden_units = NULL,
-    batch_norm_units = NULL,
+    bottleneck_units = NULL,
     resid_at = NULL,
     penalty = NULL,
     dropout = NULL,
@@ -109,7 +109,7 @@ update.tabular_resnet <-
   ) {
     args <- list(
       hidden_units = enquo(hidden_units),
-      batch_norm_units = enquo(batch_norm_units),
+      bottleneck_units = enquo(bottleneck_units),
       resid_at = enquo(resid_at),
       penalty = enquo(penalty),
       dropout = enquo(dropout),
@@ -267,9 +267,9 @@ make_tabular_resnet <- function() {
   parsnip::set_model_arg(
     model = "tabular_resnet",
     eng = "brulee",
-    parsnip = "batch_norm_units",
-    original = "batch_norm_units",
-    func = list(pkg = "tdl", fun = "batch_norm_units"),
+    parsnip = "bottleneck_units",
+    original = "bottleneck_units",
+    func = list(pkg = "tdl", fun = "bottleneck_units"),
     has_submodel = FALSE
   )
 

@@ -21,7 +21,10 @@ test_that("resid_at() has the correct default range and label", {
 test_that("resid_at() accepts a custom finite range", {
   p <- resid_at(range = c(2L, 6L))
 
-  expect_equal(dials::range_get(p, original = TRUE), list(lower = 2L, upper = 6L))
+  expect_equal(
+    dials::range_get(p, original = TRUE),
+    list(lower = 2L, upper = 6L)
+  )
 })
 
 test_that("resid_at() can be finalized via update()", {

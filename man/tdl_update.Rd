@@ -22,7 +22,7 @@
   object,
   parameters = NULL,
   hidden_units = NULL,
-  batch_norm_units = NULL,
+  bottleneck_units = NULL,
   resid_at = NULL,
   penalty = NULL,
   dropout = NULL,
@@ -80,7 +80,7 @@ modified in-place or replaced wholesale.}
 \item{hidden_units}{An integer vector for the number of units in the hidden
 model.}
 
-\item{batch_norm_units}{The number of embeddings that are produced by batch
+\item{bottleneck_units}{The number of embeddings that are produced by batch
 normalization.}
 
 \item{resid_at}{An integer vector with the layer number should use a
