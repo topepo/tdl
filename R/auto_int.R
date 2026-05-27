@@ -366,7 +366,7 @@ make_tabular_auto_int <- function() {
     eng = "brulee",
     parsnip = "num_embedding",
     original = "num_embedding",
-    func = list(pkg = "tdl", fun = "num_embedding", range = c(0L, 25L)),
+    func = list(pkg = "tdl", fun = "num_embedding", range = c(2L, 25L)),
     has_submodel = FALSE
   )
 
@@ -375,7 +375,7 @@ make_tabular_auto_int <- function() {
     eng = "brulee",
     parsnip = "hidden_units",
     original = "hidden_units",
-    func = list(pkg = "dials", fun = "hidden_units", range = c(0L, 25L)),
+    func = list(pkg = "dials", fun = "hidden_units", range = c(2L, 25L)),
     has_submodel = FALSE
   )
 
@@ -437,7 +437,7 @@ make_tabular_auto_int <- function() {
     eng = "brulee",
     parsnip = "dropout",
     original = "dropout",
-    func = list(pkg = "dials", fun = "dropout"),
+    func = list(pkg = "dials", fun = "dropout", range = c(0.05, 0.50)),
     has_submodel = FALSE
   )
 
@@ -446,7 +446,7 @@ make_tabular_auto_int <- function() {
     eng = "brulee",
     parsnip = "dropout_attn",
     original = "dropout_attn",
-    func = list(pkg = "tdl", fun = "dropout_attn"),
+    func = list(pkg = "tdl", fun = "dropout_attn", range = c(0.05, 0.50)),
     has_submodel = FALSE
   )
 
@@ -455,7 +455,7 @@ make_tabular_auto_int <- function() {
     eng = "brulee",
     parsnip = "dropout_embedding",
     original = "dropout_embedding",
-    func = list(pkg = "tdl", fun = "dropout_embedding"),
+    func = list(pkg = "tdl", fun = "dropout_embedding", range = c(0.05, 0.50)),
     has_submodel = FALSE
   )
 
@@ -509,7 +509,7 @@ make_tabular_auto_int <- function() {
     eng = "brulee",
     parsnip = "batch_size",
     original = "batch_size",
-    func = list(pkg = "dials", fun = "batch_size", range = c(6, 10)),
+    func = list(pkg = "dials", fun = "batch_size", range = c(4, 10)),
     has_submodel = FALSE
   )
 
