@@ -9,7 +9,7 @@
 #' @param trans A transformation object (default `NULL` for no transformation).
 #'
 #' @details
-#' Used as a tuning parameter for [tab_resnet()] when fit with the `"brulee"`
+#' Used as a tuning parameter for [tabular_resnet()] when fit with the `"brulee"`
 #' engine. The upper bound depends on the number of hidden layers in the
 #' network and so is left as `unknown()` by default.
 #'

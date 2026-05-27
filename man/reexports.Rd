@@ -13,8 +13,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{generics}{\code{\link[generics]{required_pkgs}}}
+  \item{generics}{\code{\link[generics:required_pkgs]{required_pkgs()}}}
 
-  \item{parsnip}{\code{\link[parsnip:add_on_exports]{check_args}}, \code{\link[parsnip]{multi_predict}}}
+  \item{parsnip}{\code{\link[parsnip:check_args]{check_args()}}, \code{\link[parsnip:multi_predict]{multi_predict()}}}
 }}
 

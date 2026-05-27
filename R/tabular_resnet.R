@@ -1,10 +1,10 @@
 #' Residual Neural Network for Tabular Data
 #'
 #' @description
-#' `tab_resnet()` ... This function can fit classification and
+#' `tabular_resnet()` ... This function can fit classification and
 #' regression models.
 #'
-#' \Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("tab_resnet")}
+#' \Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("tabular_resnet")}
 #'
 #' More information on how \pkg{parsnip} is used for modeling is at
 #' \url{https://www.tidymodels.org/}.
@@ -12,7 +12,7 @@
 #' @inheritParams parsnip::mlp
 #' @param hidden_units An integer vector for the number of units in the hidden
 #' model.
-#' @param batch_norm_units The number of embeddings that are produced by batch
+#' @param bottleneck_units The number of embeddings that are produced by batch
 #' normalization.
 #' @param resid_at An integer vector with the layer number should use a
 #' residual connection (i.e., skip layer).
@@ -27,25 +27,25 @@
 #'  "linear" or "softmax" depending on the type of outcome. Possible values
 #'  depend on the engine being used.
 #'
-#' @templateVar modeltype tab_resnet
+#' @templateVar modeltype tabular_resnet
 # @template spec-details
 #'
 # @template spec-references
 #'
-#' @seealso \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("tab_resnet")}
+#' @seealso \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("tabular_resnet")}
 #'
 #' @examplesIf !parsnip:::is_cran_check()
-#' show_engines("tab_resnet")
+#' show_engines("tabular_resnet")
 #'
-#' tab_resnet(mode = "classification", penalty = 0.01)
+#' tabular_resnet(mode = "classification", penalty = 0.01)
 #' @export
 
-tab_resnet <-
+tabular_resnet <-
   function(
     mode = "unknown",
     engine = "brulee",
     hidden_units = NULL,
-    batch_norm_units = NULL,
+    bottleneck_units = NULL,
     resid_at = NULL,
     penalty = NULL,
     dropout = NULL,
@@ -55,7 +55,7 @@ tab_resnet <-
   ) {
     args <- list(
       hidden_units = enquo(hidden_units),
-      batch_norm_units = enquo(batch_norm_units),
+      bottleneck_units = enquo(bottleneck_units),
       resid_at = enquo(resid_at),
       penalty = enquo(penalty),
       dropout = enquo(dropout),
@@ -65,7 +65,7 @@ tab_resnet <-
     )
 
     parsnip::new_model_spec(
-      "tab_resnet",
+      "tabular_resnet",
       args = args,
       eng_args = NULL,
       mode = mode,
@@ -79,9 +79,9 @@ tab_resnet <-
 # ------------------------------------------------------------------------------
 
 #' Updating a model specification
-#' @method update tab_resnet
+#' @method update tabular_resnet
 #' @rdname tdl_update
-#' @inheritParams tab_resnet
+#' @inheritParams tabular_resnet
 #' @param object A [model specification][model_spec].
 #' @param parameters A 1-row tibble or named list with _main_
 #'  parameters to update. Use **either** `parameters` **or** the main arguments
@@ -92,12 +92,12 @@ tab_resnet <-
 #' @param fresh A logical for whether the arguments should be
 #'  modified in-place or replaced wholesale.
 #' @export
-update.tab_resnet <-
+update.tabular_resnet <-
   function(
     object,
     parameters = NULL,
     hidden_units = NULL,
-    batch_norm_units = NULL,
+    bottleneck_units = NULL,
     resid_at = NULL,
     penalty = NULL,
     dropout = NULL,
@@ -109,7 +109,7 @@ update.tab_resnet <-
   ) {
     args <- list(
       hidden_units = enquo(hidden_units),
-      batch_norm_units = enquo(batch_norm_units),
+      bottleneck_units = enquo(bottleneck_units),
       resid_at = enquo(resid_at),
       penalty = enquo(penalty),
       dropout = enquo(dropout),
@@ -123,7 +123,7 @@ update.tab_resnet <-
       parameters = parameters,
       args_enquo_list = args,
       fresh = fresh,
-      cls = "tab_resnet",
+      cls = "tabular_resnet",
       ...
     )
   }
@@ -131,7 +131,7 @@ update.tab_resnet <-
 # ------------------------------------------------------------------------------
 
 #' @export
-check_args.tab_resnet <- function(object, call = rlang::caller_env()) {
+check_args.tabular_resnet <- function(object, call = rlang::caller_env()) {
   args <- lapply(object$args, rlang::eval_tidy)
 
   check_number_decimal(
@@ -166,7 +166,7 @@ check_args.tab_resnet <- function(object, call = rlang::caller_env()) {
 }
 
 #' @export
-required_pkgs.tab_resnet <- function(x, infra = TRUE, ...) {
+required_pkgs.tabular_resnet <- function(x, infra = TRUE, ...) {
   c("brulee", "tdl")
 }
 
@@ -227,32 +227,36 @@ reformat_torch_num <- function(results, object) {
 
 # ------------------------------------------------------------------------------
 
-make_tab_resnet <- function() {
-  parsnip::set_new_model("tab_resnet")
-  parsnip::set_model_mode("tab_resnet", mode = "classification")
-  parsnip::set_model_mode("tab_resnet", mode = "regression")
+make_tabular_resnet <- function() {
+  parsnip::set_new_model("tabular_resnet")
+  parsnip::set_model_mode("tabular_resnet", mode = "classification")
+  parsnip::set_model_mode("tabular_resnet", mode = "regression")
 
   parsnip::set_model_engine(
-    "tab_resnet",
+    "tabular_resnet",
     mode = "classification",
     eng = "brulee"
   )
-  parsnip::set_model_engine("tab_resnet", mode = "regression", eng = "brulee")
+  parsnip::set_model_engine(
+    "tabular_resnet",
+    mode = "regression",
+    eng = "brulee"
+  )
   parsnip::set_dependency(
-    "tab_resnet",
+    "tabular_resnet",
     eng = "brulee",
     pkg = "brulee",
     mode = "classification"
   )
   parsnip::set_dependency(
-    "tab_resnet",
+    "tabular_resnet",
     eng = "brulee",
     pkg = "brulee",
     mode = "regression"
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     parsnip = "hidden_units",
     original = "hidden_units",
@@ -261,16 +265,16 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
-    parsnip = "batch_norm_units",
-    original = "batch_norm_units",
-    func = list(pkg = "tdl", fun = "batch_norm_units"),
+    parsnip = "bottleneck_units",
+    original = "bottleneck_units",
+    func = list(pkg = "tdl", fun = "bottleneck_units"),
     has_submodel = FALSE
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     parsnip = "penalty",
     original = "penalty",
@@ -279,7 +283,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     parsnip = "epochs",
     original = "epochs",
@@ -288,7 +292,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     parsnip = "dropout",
     original = "dropout",
@@ -297,7 +301,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     parsnip = "learn_rate",
     original = "learn_rate",
@@ -306,7 +310,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     parsnip = "activation",
     original = "activation",
@@ -319,7 +323,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     parsnip = "rate_schedule",
     original = "rate_schedule",
@@ -331,7 +335,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     parsnip = "momentum",
     original = "momentum",
@@ -344,7 +348,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     parsnip = "batch_size",
     original = "batch_size",
@@ -357,7 +361,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_fit(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     mode = "regression",
     value = list(
@@ -369,7 +373,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_encoding(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     mode = "regression",
     options = list(
@@ -381,7 +385,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_fit(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     mode = "classification",
     value = list(
@@ -393,7 +397,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_encoding(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     mode = "classification",
     options = list(
@@ -405,7 +409,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_pred(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     mode = "regression",
     type = "numeric",
@@ -422,7 +426,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_pred(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     mode = "classification",
     type = "class",
@@ -439,7 +443,7 @@ make_tab_resnet <- function() {
   )
 
   parsnip::set_pred(
-    model = "tab_resnet",
+    model = "tabular_resnet",
     eng = "brulee",
     mode = "classification",
     type = "prob",

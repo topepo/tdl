@@ -6,7 +6,7 @@
 #' and an attention mechanism is use to make relevant predictions for specific
 #' (i.e., real) data sets.
 #'
-#' \Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("tab_pfn")}
+#' \Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("tabular_pfn")}
 #'
 #' More information on how \pkg{parsnip} is used for modeling is at
 #' \url{https://www.tidymodels.org/}.
@@ -30,7 +30,7 @@
 #'  to use for fitting. Possible engines are listed below. The default for this
 #'  model is `"tabpfn"`.
 #'
-#' @templateVar modeltype tab_pfn
+#' @templateVar modeltype tabular_pfn
 # @template spec-details
 #'
 #' @details This function fits classification and regression models.
@@ -54,14 +54,14 @@
 #' Frank Hutter. "Transformers can do Bayesian inference." _arXiv preprint_
 #' arXiv:2112.10510 (2021).
 #'
-#' @seealso \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("tab_pfn")} [tabpfn::tab_pfn()]
+#' @seealso \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("tabular_pfn")} [tabpfn::tab_pfn()]
 #'
 #' @examplesIf !parsnip:::is_cran_check()
-#' show_engines("tab_pfn")
+#' show_engines("tabular_pfn")
 #'
-#' tab_pfn()
+#' tabular_pfn()
 #' @export
-tab_pfn <-
+tabular_pfn <-
   function(
     mode = "unknown",
     engine = "tabpfn",
@@ -78,7 +78,7 @@ tab_pfn <-
     )
 
     parsnip::new_model_spec(
-      "tab_pfn",
+      "tabular_pfn",
       args = args,
       eng_args = NULL,
       mode = mode,
@@ -91,11 +91,11 @@ tab_pfn <-
 
 # ------------------------------------------------------------------------------
 
-#' @method update tab_pfn
+#' @method update tabular_pfn
 #' @rdname tdl_update
-#' @inheritParams tab_pfn
+#' @inheritParams tabular_pfn
 #' @export
-update.tab_pfn <-
+update.tabular_pfn <-
   function(
     object,
     parameters = NULL,
@@ -118,7 +118,7 @@ update.tab_pfn <-
       parameters = parameters,
       args_enquo_list = args,
       fresh = fresh,
-      cls = "tab_pfn",
+      cls = "tabular_pfn",
       ...
     )
   }
@@ -126,7 +126,7 @@ update.tab_pfn <-
 # ------------------------------------------------------------------------------
 
 #' @export
-check_args.tab_pfn <- function(object, call = rlang::caller_env()) {
+check_args.tabular_pfn <- function(object, call = rlang::caller_env()) {
   args <- lapply(object$args, rlang::eval_tidy)
 
   check_number_decimal(
@@ -160,7 +160,7 @@ check_args.tab_pfn <- function(object, call = rlang::caller_env()) {
 
 
 #' @export
-required_pkgs.tab_pfn <- function(x, infra = TRUE, ...) {
+required_pkgs.tabular_pfn <- function(x, infra = TRUE, ...) {
   c("tabpfn", "tdl")
 }
 
@@ -176,16 +176,20 @@ prob_only <- function(x, object) {
 
 # ------------------------------------------------------------------------------
 
-make_tab_pfn <- function() {
-  parsnip::set_new_model("tab_pfn")
-  parsnip::set_model_mode("tab_pfn", mode = "classification")
-  parsnip::set_model_mode("tab_pfn", mode = "regression")
+make_tabular_pfn <- function() {
+  parsnip::set_new_model("tabular_pfn")
+  parsnip::set_model_mode("tabular_pfn", mode = "classification")
+  parsnip::set_model_mode("tabular_pfn", mode = "regression")
 
-  parsnip::set_model_engine("tab_pfn", mode = "classification", eng = "tabpfn")
-  parsnip::set_dependency("tab_pfn", eng = "tabpfn", pkg = "tabpfn")
+  parsnip::set_model_engine(
+    "tabular_pfn",
+    mode = "classification",
+    eng = "tabpfn"
+  )
+  parsnip::set_dependency("tabular_pfn", eng = "tabpfn", pkg = "tabpfn")
 
   parsnip::set_fit(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     mode = "classification",
     value = list(
@@ -197,7 +201,7 @@ make_tab_pfn <- function() {
   )
 
   parsnip::set_encoding(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     mode = "classification",
     options = list(
@@ -209,7 +213,7 @@ make_tab_pfn <- function() {
   )
 
   parsnip::set_pred(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     mode = "classification",
     type = "class",
@@ -218,6 +222,7 @@ make_tab_pfn <- function() {
       post = NULL,
       func = c(fun = "predict"),
       args = list(
+        type = "class",
         object = quote(object$fit),
         new_data = quote(new_data)
       )
@@ -225,7 +230,7 @@ make_tab_pfn <- function() {
   )
 
   parsnip::set_pred(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     mode = "classification",
     type = "prob",
@@ -234,6 +239,7 @@ make_tab_pfn <- function() {
       post = NULL,
       func = c(fun = "predict"),
       args = list(
+        type = "prob",
         object = quote(object$fit),
         new_data = quote(new_data)
       )
@@ -241,7 +247,7 @@ make_tab_pfn <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     parsnip = "num_estimators",
     original = "num_estimators",
@@ -250,7 +256,7 @@ make_tab_pfn <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     parsnip = "softmax_temperature",
     original = "softmax_temperature",
@@ -259,7 +265,7 @@ make_tab_pfn <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     parsnip = "balance_probabilities",
     original = "balance_probabilities",
@@ -268,7 +274,7 @@ make_tab_pfn <- function() {
   )
 
   parsnip::set_model_arg(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     parsnip = "average_before_softmax",
     original = "average_before_softmax",
@@ -278,11 +284,11 @@ make_tab_pfn <- function() {
 
   # ------------------------------------------------------------------------------
 
-  parsnip::set_model_engine("tab_pfn", mode = "regression", eng = "tabpfn")
-  parsnip::set_dependency("tab_pfn", eng = "tabpfn", pkg = "tabpfn")
+  parsnip::set_model_engine("tabular_pfn", mode = "regression", eng = "tabpfn")
+  parsnip::set_dependency("tabular_pfn", eng = "tabpfn", pkg = "tabpfn")
 
   parsnip::set_fit(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     mode = "regression",
     value = list(
@@ -294,7 +300,7 @@ make_tab_pfn <- function() {
   )
 
   parsnip::set_encoding(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     mode = "regression",
     options = list(
@@ -306,7 +312,7 @@ make_tab_pfn <- function() {
   )
 
   parsnip::set_pred(
-    model = "tab_pfn",
+    model = "tabular_pfn",
     eng = "tabpfn",
     mode = "regression",
     type = "numeric",

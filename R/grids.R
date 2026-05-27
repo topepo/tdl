@@ -24,8 +24,8 @@
 #' integer vectors.
 #' @examples
 #' rn_spec <-
-#'   tab_resnet(hidden_units = tune(),
-#'              batch_norm_units = tune(),
+#'   tabular_resnet(hidden_units = tune(),
+#'              bottleneck_units = tune(),
 #'              penalty = tune())
 #'
 #' rn_grid <- neural_net_grid_space_filling(rn_spec)
@@ -45,17 +45,17 @@ neural_net_grid_space_filling <- function(
     param_info <- wflow |> hardhat::extract_parameter_set_dials()
   }
   tune_hidden <- any(param_info$id == "hidden_units")
-  tune_batch <- any(param_info$id == "batch_norm_units")
+  tune_bottleneck <- any(param_info$id == "bottleneck_units")
 
-  p <- num_layers * (tune_batch + 1)
+  p <- num_layers * (tune_bottleneck + 1)
 
   param_expanded <- vector(mode = "list", length = p)
   names(param_expanded)[1:num_layers] <- names0(num_layers, ".hidden_")
 
-  if (tune_batch) {
+  if (tune_bottleneck) {
     names(param_expanded)[(num_layers + 1):p] <- names0(
       num_layers,
-      ".batch_"
+      ".bottleneck_"
     )
   }
 
@@ -69,8 +69,8 @@ neural_net_grid_space_filling <- function(
   if (tune_hidden) {
     param_expanded <- dplyr::filter(param_expanded, id != "hidden_units")
   }
-  if (tune_batch) {
-    param_expanded <- dplyr::filter(param_expanded, id != "batch_norm_units")
+  if (tune_bottleneck) {
+    param_expanded <- dplyr::filter(param_expanded, id != "bottleneck_units")
   }
 
   class(param_expanded) <- class(param_info)
@@ -84,13 +84,13 @@ neural_net_grid_space_filling <- function(
       grd |>
       dplyr::select(dplyr::matches("^\\.hidden_")) |>
       apply(1, function(x) unname(x), simplify = FALSE)
-    batch_grid <- grd |>
-      dplyr::select(dplyr::matches("^\\.batch_")) |>
+    bottleneck_grid <- grd |>
+      dplyr::select(dplyr::matches("^\\.bottleneck_")) |>
       apply(1, function(x) unname(x), simplify = FALSE)
 
     unit_grid <- dplyr::tibble(
       hidden_units = hidden_grid,
-      batch_norm_units = batch_grid
+      bottleneck_units = bottleneck_grid
     )
     grd <-
       dplyr::bind_cols(
@@ -98,7 +98,7 @@ neural_net_grid_space_filling <- function(
         grd |>
           dplyr::select(
             -dplyr::matches("^\\.hidden"),
-            -dplyr::matches("^\\.batch")
+            -dplyr::matches("^\\.bottleneck")
           )
       )
   }
